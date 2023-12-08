@@ -3,6 +3,7 @@ require('dotenv').config();
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
+const mongoose = require("mongoose");
 
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -10,7 +11,10 @@ const runner            = require('./test-runner');
 
 const app = express();
 
-app.use('/public', express.static(process.cwd() + '/public'));
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI);
+
+app.use('/public', express.static(__dirname + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 
@@ -20,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/index.html');
+    res.sendFile(__dirname + '/views/index.html');
   });
 
 //For FCC testing purposes

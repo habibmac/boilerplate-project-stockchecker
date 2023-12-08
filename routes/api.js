@@ -1,10 +1,7 @@
 'use strict';
 
-module.exports = function (app) {
+const stockController = require("../controllers/stockController");
 
-  app.route('/api/stock-prices')
-    .get(function (req, res){
-      
-    });
-    
+module.exports = function (app) {
+    app.route("/api/stock-prices").get(stockController.getStockPrices);
 };

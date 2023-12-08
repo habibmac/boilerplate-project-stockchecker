@@ -4,6 +4,7 @@ const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
 const mongoose = require("mongoose");
+const helmet = require("helmet");
 
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
@@ -39,6 +40,16 @@ app.use(function(req, res, next) {
     .type('text')
     .send('Not Found');
 });
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'"],
+        },
+    })
+);
 
 //Start our server and tests!
 const listener = app.listen(process.env.PORT || 3000, function () {

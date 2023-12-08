@@ -8,7 +8,6 @@ const helmet = require("helmet");
 
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
-const runner = require('./test-runner');
 
 const app = express();
 
@@ -55,6 +54,7 @@ app.use(
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
   if (process.env.NODE_ENV === 'test') {
+    const runner = require("./test-runner");
     console.log('Running Tests...');
     setTimeout(function () {
       try {
